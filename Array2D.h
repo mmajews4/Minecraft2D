@@ -34,6 +34,11 @@ public:
     {
         data.resize(size);
     }
+    void assign(std::vector<T> array)
+    {
+        data.assign(array.begin(), array.end());
+    }
+
 };
 
 template<typename T>

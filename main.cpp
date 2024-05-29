@@ -4,6 +4,7 @@
 #include "Array2D.h"
 #include "Button.h"
 #include "Dirt.h"
+#include "World.h"
 
 
 using namespace std;
@@ -11,6 +12,10 @@ using namespace std;
 int main() {
     
     Dirt dirt(100, 100);
+
+    World world;
+    world.debugDisplayWorld();
+
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Basic SFML Window");
 
