@@ -2,11 +2,14 @@
 #define CONTROLLER_H
 
 #include "World.h"
+#include "Player.h"
 
 class Controller 
 {
     World world;
+    Player player;
 
+    int block_size;
     float game_speed;
 
     // - checks if after move, player isn't out of board
@@ -16,7 +19,7 @@ class Controller
 
 
 public:
-    Controller(World &);
+    Controller(World &, Player &);
 
     float getGameSpeed() const;
 };

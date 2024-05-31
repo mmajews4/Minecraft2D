@@ -26,6 +26,9 @@ class Block {
     // checks if click cooridinates are on button
     bool inRange(int col, int row) const;
 
+    int getSize() const;
+    void setSize(int s);
+
     void setTexture(std::string);
     void setPosition(int col, int row);
 

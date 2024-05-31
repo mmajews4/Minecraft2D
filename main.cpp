@@ -17,8 +17,9 @@ int main() {
     Dirt dirt(100, 100);
 
     World world;
-    Controller ctrl(world);
-    SFMLView view(world);
+    Player player(10, 6);
+    Controller ctrl(world, player);
+    SFMLView view(world, player);
     SFMLCtrl win_ctrl(ctrl, view);
 
 

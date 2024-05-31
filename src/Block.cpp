@@ -4,7 +4,7 @@ using namespace std;
 
 Block::Block()
 {
-    size = 100;
+    size = 50;
     text_offset = size*4/5;
     text_size = 20;
     text = "";
@@ -18,6 +18,12 @@ bool Block::inRange(int col, int row) const
     && row >= top_offset  && row < top_offset + size) return true;
 
     return false;
+}
+
+
+int Block::getSize() const
+{
+    return size;
 }
 
 

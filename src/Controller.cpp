@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Controller::Controller(World &w) : world(w)
+Controller::Controller(World &w, Player&p) : world(w), player(p)
 {
     game_speed = 0.05;
 }

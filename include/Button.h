@@ -18,7 +18,7 @@ class Button {
     std::string text;
     bool active;
 
-    public:
+public:
 
     Button(int width_,
             int height_,
