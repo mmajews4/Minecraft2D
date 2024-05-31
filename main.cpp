@@ -5,6 +5,9 @@
 #include "Button.h"
 #include "Dirt.h"
 #include "World.h"
+#include "Controller.h"
+#include "SFMLView.h"
+#include "SFMLCtrl.h"
 
 
 using namespace std;
@@ -14,27 +17,19 @@ int main() {
     Dirt dirt(100, 100);
 
     World world;
+    Controller ctrl(world);
+    SFMLView view(world);
+    SFMLCtrl win_ctrl(ctrl, view);
+
+
     world.debugDisplayWorld();
 
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Basic SFML Window");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Minecreft2D");
 
     while (window.isOpen()) {
-        // Event handling
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        // Drawing
-        window.clear();       // Clear the window
-
-        dirt.draw(window);
-
-        window.display();     // Display the contents of the window
+        win_ctrl.run(window);
     }
-
 
     return 0;
 }
