@@ -28,7 +28,7 @@ void SFMLView::setBlockPosition(T &block, int col, int row)
 {
     int pos_col = (col - player.getPositionCol())* block.getSize() + player.getWinPosCol();
     // need to offset that because I want player coordinates to be his legs not head
-    int pos_row = (row - player.getPositionRow())* block.getSize() + player.getWinPosRow() + block.getSize();
+    int pos_row = (row - player.getPositionRow())* block.getSize() + player.getWinPosRow() + player.getHeight();
     block.setPosition(pos_col, pos_row);
 }
 

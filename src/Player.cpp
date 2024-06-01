@@ -11,31 +11,39 @@ Player::Player(double pc, double pr)
     position_col = pc;
     window_position_col = (1000 - width)/2;
     window_position_row = (600 - height)/2;
-    move_rate = 0.1; // how many blocks player goes every update
     setTexture("assets/textures/Player.png");
 }
 
-
+int Player::getHeight() const
+{
+    return height;
+}
+int Player::getWidth() const
+{
+    return width;
+}
 double Player::getPositionRow() const
 {
     return position_row;
 }
-
 double Player::getPositionCol() const
 {
     return position_col;
 }
-
 double Player::getWinPosRow() const
 {
     return window_position_row;
 }
-
 double Player::getWinPosCol() const
 {
     return window_position_col;
 }
 
+void Player::setPosition(double col, double row)
+{
+    position_row = row;
+    position_col = col;
+}
 
 void Player::setPlayerDimensions(int w, int h)
 {
@@ -52,12 +60,6 @@ void Player::setTexture(string file_name)
     }
 }
 
-void Player::move(Dir dir)
-{
-    if(dir == LEFT) position_col = position_col - move_rate;
-    if(dir == RIGHT) position_col = position_col + move_rate;
-    
-}
 
 // Display button on screen
 void Player::draw(sf::RenderWindow &window)

@@ -7,8 +7,6 @@
 #include "Block.h"
 
 
-enum Dir { LEFT, RIGHT };
-
 class Player {
 
     int height;
@@ -26,16 +24,16 @@ public:
     // initial position
     Player(double pc, double pr);
 
-//    int getHeight() const;
-//    int getWidth() const;
+    int getHeight() const;
+    int getWidth() const;
     double getPositionRow() const;
     double getPositionCol() const;
     double getWinPosRow() const;
     double getWinPosCol() const;
+    void setPosition(double col, double row);
     void setPlayerDimensions(int w, int h);
 
     void setTexture(std::string);
-    void move(Dir);
 
     // Display on screen
     void draw(sf::RenderWindow &);

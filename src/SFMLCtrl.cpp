@@ -21,15 +21,7 @@ void SFMLCtrl::run(sf::RenderWindow &window)
             window.close();
         }
         else if (event.type == sf::Event::KeyPressed) {
-            if(event.key.code == sf::Keyboard::W) {
 
-            }
-            if(event.key.code == sf::Keyboard::A) {
-
-            }
-            if(event.key.code == sf::Keyboard::D) {
-
-            }
         }   
     }
 
@@ -39,7 +31,19 @@ void SFMLCtrl::run(sf::RenderWindow &window)
 
     // Check if it's time to update the display
     if (timeSinceLastDisplay >= displayInterval) 
-    {       
+    { 
+        // Check for continuous key presses
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            ctrl.movePlayer(LEFT);
+        }
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            ctrl.movePlayer(RIGHT);
+        }
+
+        ctrl.update();
         view.display(window);
 
         // Update game speed in case it changed
