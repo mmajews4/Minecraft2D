@@ -26,8 +26,12 @@ public:
     // initial position
     Player(double pc, double pr);
 
-    int getHeight() const;
-    int getWidth() const;
+//    int getHeight() const;
+//    int getWidth() const;
+    double getPositionRow() const;
+    double getPositionCol() const;
+    double getWinPosRow() const;
+    double getWinPosCol() const;
     void setPlayerDimensions(int w, int h);
 
     void setTexture(std::string);

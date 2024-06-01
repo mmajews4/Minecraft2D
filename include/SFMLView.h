@@ -14,9 +14,14 @@ class SFMLView {
 
     int window_width, window_height;    // In pixels
     int width, height;                  // In blocks
+
+    // Calculates block position on window relative to the player
+    // sets the calculated position 
+    template <typename T>
+    void setBlockPosition(T &block, int col, int row);
     
     // Renders very part of a game
-    void renderWorld(sf::RenderWindow &) const;
+    void renderWorld(sf::RenderWindow &);
     void renderPlayer(sf::RenderWindow &) const;
     void renderEq(sf::RenderWindow &) const;
     void renderMenu(sf::RenderWindow &) const;
@@ -30,7 +35,7 @@ public:
     int getWindowWidth() const;
     
 
-    void display(sf::RenderWindow &) const;
+    void display(sf::RenderWindow &);
 
 };
 

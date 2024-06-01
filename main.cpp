@@ -26,7 +26,7 @@ int main() {
     world.debugDisplayWorld();
 
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Minecreft2D");
+    sf::RenderWindow window(sf::VideoMode(view.getWindowWidth(), view.getWindowHeight()), "Minecreft2D");
 
     while (window.isOpen()) {
         win_ctrl.run(window);

@@ -4,7 +4,7 @@
 
 SFMLView::SFMLView(World &w, Player &p) : world(w), player(p)
 {
-    window_width = 600, window_height = 600;
+    window_width = 1000, window_height = 600;
     height = world.getHeight();
     width = world.getWidth();
 }
@@ -21,7 +21,19 @@ int SFMLView::getWindowWidth() const
 }
 
 
-void SFMLView::renderWorld(sf::RenderWindow &window) const
+// Calculates block position on window relative to the player
+// sets the calculated position 
+template <typename T>
+void SFMLView::setBlockPosition(T &block, int col, int row)
+{
+    int pos_col = (col - player.getPositionCol())* block.getSize() + player.getWinPosCol();
+    // need to offset that because I want player coordinates to be his legs not head
+    int pos_row = (row - player.getPositionRow())* block.getSize() + player.getWinPosRow() + block.getSize();
+    block.setPosition(pos_col, pos_row);
+}
+
+
+void SFMLView::renderWorld(sf::RenderWindow &window)
 {
     Dirt dirt;
 
@@ -32,7 +44,7 @@ void SFMLView::renderWorld(sf::RenderWindow &window) const
                 case A:
                     break;
                 case D:
-                    dirt.setPosition(col*dirt.getSize(), row*dirt.getSize());
+                    setBlockPosition(dirt, col, row);
                     dirt.draw(window);
                     break;
                 case G:
@@ -77,7 +89,7 @@ void SFMLView::renderMenu(sf::RenderWindow &window) const
 }
 
 
-void SFMLView::display(sf::RenderWindow &window) const 
+void SFMLView::display(sf::RenderWindow &window)
 {
     // clear the window with black color
     window.clear(sf::Color(200, 200, 255));

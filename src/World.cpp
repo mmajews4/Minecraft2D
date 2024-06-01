@@ -22,7 +22,7 @@ World::World()
     height = 15;
 
     map.resize(height, vector<Field>(width));
-/*
+
     // Set world map
     // Map for testing
     map.assign({{A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A},
@@ -40,7 +40,7 @@ World::World()
                 {D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D},
                 {D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D},
                 {D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D}});
-*/
+/*
     map.assign({{A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A},
                 {A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A},
                 {A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, L, L, L, A, A, A},
@@ -56,6 +56,7 @@ World::World()
                 {S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S},
                 {S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S},
                 {S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S}});
+*/
 }
 
 
@@ -79,6 +80,7 @@ void World::setBlock(int col, int row, Field block)
 {
     map[row][col] = block;
 }
+
 
 void World::debugDisplayWorld() const
 {

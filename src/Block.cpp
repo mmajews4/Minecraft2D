@@ -4,7 +4,7 @@ using namespace std;
 
 Block::Block()
 {
-    size = 50;
+    size = 100;
     text_offset = size*4/5;
     text_size = 20;
     text = "";
