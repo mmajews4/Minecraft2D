@@ -34,7 +34,7 @@ void SFMLCtrl::run(sf::RenderWindow &window)
     { 
         // Check for continuous key presses
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-
+            ctrl.jump();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             ctrl.movePlayer(LEFT);
