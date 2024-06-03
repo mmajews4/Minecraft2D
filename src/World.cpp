@@ -16,12 +16,13 @@
 
 using namespace std;
 
+// A-air D-dirt G-grass W-wood L-leaves S-stone C-chest T-craftingTable 
 World::World()
 {
     width = 30;
     height = 15;
 
-    map.resize(height, vector<Field>(width));
+    map.resize(height, vector<BlockSign>(width));
 
     // Set world map
     // Map for testing
@@ -70,15 +71,16 @@ int World::getHeight() const
     return height;
 }
 
-Field World::getBlock(int col, int row) const
+BlockSign World::getBlock(int col, int row) const
 {
+    if(col < 0 || col >= width || row < 0 || row >= height) return A;
     return map[row][col];
 }
 
 
-void World::setBlock(int col, int row, Field block)
+void World::setBlock(int col, int row, BlockSign block)
 {
-    map[row][col] = block;
+    if(!(col < 0 || col >= width || row < 0 || row > height)) map[row][col] = block;
 }
 
 

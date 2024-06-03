@@ -4,9 +4,9 @@ using namespace std;
 
 Player::Player(double pc, double pr)
 {
-    Block block;
-    height = 2*block.getSize();
-    width = block.getSize();
+    Block* block = new Dirt();
+    height = 2*block->getSize();
+    width = block->getSize();
     position_row = pr;
     position_col = pc;
     window_position_col = (1000 - width)/2;

@@ -26,15 +26,16 @@ int SFMLView::getWindowWidth() const
 template <typename T>
 void SFMLView::setBlockPosition(T &block, int col, int row)
 {
-    int pos_col = (col - player.getPositionCol())* block.getSize() + player.getWinPosCol();
+    int pos_col = (col - player.getPositionCol())* block->getSize() + player.getWinPosCol();
     // need to offset that because I want player coordinates to be his legs not head
-    int pos_row = (row - player.getPositionRow())* block.getSize() + player.getWinPosRow() + player.getHeight();
-    block.setPosition(pos_col, pos_row);
+    int pos_row = (row - player.getPositionRow())* block->getSize() + player.getWinPosRow() + player.getHeight();
+    block->setPosition(pos_col, pos_row);
 }
 
 
 void SFMLView::renderWorld(sf::RenderWindow &window)
 {
+    Block* block = nullptr;
     Dirt dirt;
 
     for(int row = 0; row < height; row++){
@@ -42,10 +43,9 @@ void SFMLView::renderWorld(sf::RenderWindow &window)
 
             switch(world.getBlock(col, row)){
                 case A:
-                    break;
+                    continue;
                 case D:
-                    setBlockPosition(dirt, col, row);
-                    dirt.draw(window);
+                    block = &dirt;
                     break;
                 case G:
 
@@ -66,6 +66,8 @@ void SFMLView::renderWorld(sf::RenderWindow &window)
 
                     break;
             }
+            setBlockPosition(block, col, row);
+            block->draw(window);
         }
     }
 }

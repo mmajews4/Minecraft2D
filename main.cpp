@@ -13,8 +13,6 @@
 using namespace std;
 
 int main() {
-    
-    Dirt dirt(100, 100);
 
     World world;
     Player player(10, 6);

@@ -11,6 +11,7 @@ enum Dir { LEFT, RIGHT};
 class Controller 
 {
     const int BLOCK_SIZE = 100;
+    const double BLOCK_RANGE = 3;
     const double GAME_SPEED = 0.015;
     const double G_CONST = 0.04;    // Gravitational constant in blocks/game_speed^2
     const double JUMP_STARTING_VELOCITY = -0.32;
@@ -39,8 +40,16 @@ public:
     // Makes player jump
     void jump();
 
-    // moves player
+    // Moves player a determianed amount in chosen direction every update 
     void movePlayer(Dir);
+
+    // Break block:
+    // - checks if block is in range
+    // - reads type of block
+    // - waits amount of updated determined by the type of block 
+    // - breaks the block
+    // - adds it to the inventory
+    void breakBlock(int mouse_col, int mouse_row);
 
     // Updates currnet state of the game:
     // - checks collisions
