@@ -34,6 +34,10 @@ public:
     // checks if click cooridinates are on button
     bool inRange(int col, int row) const;
 
+    void setPosition(int col, int row);
+    void setActive(bool active_);
+    bool isActive() const;
+
     // Display on screen
     void display(sf::RenderWindow &);
 };

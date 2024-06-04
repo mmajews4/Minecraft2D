@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-SFMLView::SFMLView(World &w, Player &p) : world(w), player(p)
+SFMLView::SFMLView(World &w, Player &p, Equipment &e) : world(w), player(p), eq(e)
 {
     window_width = 1000, window_height = 600;
     height = world.getHeight();
@@ -81,7 +81,7 @@ void SFMLView::renderPlayer(sf::RenderWindow &window) const
 
 void SFMLView::renderEq(sf::RenderWindow &window) const
 {
-
+    eq.display(window);
 }
 
 

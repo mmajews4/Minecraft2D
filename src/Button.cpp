@@ -34,6 +34,25 @@ bool Button::inRange(int col, int row) const
     return false;
 }
 
+
+void Button::setPosition(int col, int row)
+{
+    left_offset = col;
+    top_offset = row;
+}
+
+
+void Button::setActive(bool active_)
+{
+    active = active_;
+}
+
+bool Button::isActive() const
+{
+    return active;
+}
+
+
 // Display button on screen
 void Button::display(sf::RenderWindow &window)
 {

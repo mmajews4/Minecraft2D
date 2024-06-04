@@ -3,14 +3,15 @@
 
 #include <SFML/Graphics.hpp>
 #include "World.h"
-#include "Dirt.h"
 #include "Player.h"
+#include "Equipment.h"
 
 
 class SFMLView {
 
     World &world;
     Player &player;
+    Equipment &eq;
 
     int window_width, window_height;    // In pixels
     int width, height;                  // In blocks
@@ -28,7 +29,7 @@ class SFMLView {
 
 public:
 
-    SFMLView(World &, Player &);
+    SFMLView(World &, Player &, Equipment &);
 
     // Simple getters
     int getWindowHeight() const;

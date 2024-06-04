@@ -15,10 +15,10 @@ class Block {
     int size;
     int left_offset;
     int top_offset;
-    int text_offset;
+/*    int text_offset;
     int text_size;
     std::string text;
-
+*/
     sf::Texture texture;
     BlockState state;
 
@@ -36,6 +36,9 @@ public:
 
     void setTexture(std::string);
     void setPosition(int col, int row);
+
+    // Draws block half the size of original
+    void drawInEq(sf::RenderWindow &);
 
     // Display on screen
     void draw(sf::RenderWindow &);

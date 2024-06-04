@@ -6,6 +6,7 @@
 #include "Dirt.h"
 #include "World.h"
 #include "Controller.h"
+#include "Equipment.h"
 #include "SFMLView.h"
 #include "SFMLCtrl.h"
 
@@ -17,7 +18,8 @@ int main() {
     World world;
     Player player(10, 6);
     Controller ctrl(world, player);
-    SFMLView view(world, player);
+    Equipment eq;
+    SFMLView view(world, player, eq);
     SFMLCtrl win_ctrl(ctrl, view);
 
 

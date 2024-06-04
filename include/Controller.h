@@ -12,7 +12,7 @@ class Controller
 {
     const int BLOCK_SIZE = 100;
     const double BLOCK_RANGE = 3;
-    const double GAME_SPEED = 0.015;
+    const double GAME_SPEED = 0.025;
     const double G_CONST = 0.04;    // Gravitational constant in blocks/game_speed^2
     const double JUMP_STARTING_VELOCITY = -0.32;
     const double MAX_VELOCITY = 0.32;

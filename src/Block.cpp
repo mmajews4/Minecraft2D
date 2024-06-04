@@ -5,9 +5,6 @@ using namespace std;
 Block::Block()
 {
     size = 100;
-    text_offset = size*4/5;
-    text_size = 20;
-    text = "";
 }
 
 
@@ -41,17 +38,31 @@ void Block::setPosition(int col, int row)
     top_offset = row;
 }
 
+
+// Draws block half the size of original
+void Block::drawInEq(sf::RenderWindow &window)
+{
+//    left_offset = left_offset + size/2;
+//    top_offset = top_offset + size/2;
+
+    // Create block to display
+    sf::RectangleShape block_view(sf::Vector2f(size/2, size/2));
+    block_view.setTexture(&texture);
+    block_view.setPosition(left_offset + size/5, top_offset + size/5);
+    window.draw(block_view);
+}
+
 // Display button on screen
 void Block::draw(sf::RenderWindow &window)
 {
     // Get font
-    GameFont font;
+//    GameFont font;
 
     // Create block to display
     sf::RectangleShape block_view(sf::Vector2f(size, size));
     block_view.setTexture(&texture);
     block_view.setPosition(left_offset, top_offset);
-
+/*
     // Create a text to display number of items in inventory
     sf::Text text_view;
     text_view.setFont(font.font);
@@ -63,5 +74,5 @@ void Block::draw(sf::RenderWindow &window)
 
 
     if(state == EQ) window.draw(text_view);
-    window.draw(block_view);
+*/    window.draw(block_view);
 }
