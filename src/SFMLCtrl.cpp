@@ -62,6 +62,10 @@ void SFMLCtrl::run(sf::RenderWindow &window)
             sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
             ctrl.breakBlock(mouse_pos.x, mouse_pos.y);
         }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+            sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+            ctrl.placeBlock(mouse_pos.x, mouse_pos.y);
+        }
 
         ctrl.update();
         view.display(window);

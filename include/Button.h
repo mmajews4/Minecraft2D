@@ -18,6 +18,9 @@ class Button {
     std::string text;
     bool active;
 
+    GameFont font;
+    sf::Text text_view;
+
 public:
 
     Button(int width_,

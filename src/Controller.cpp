@@ -5,6 +5,7 @@ using namespace std;
 Controller::Controller(World &w, Player &p, Equipment &e) : world(w), player(p), eq(e)
 {
     velocity = 0;
+    block = &dirt; // Any block just to take its size
 }
 
 
@@ -66,7 +67,6 @@ void Controller::movePlayer(Dir dir)
 bool Controller::checkMoveCollision(Dir dir) const
 {
     // We are moving in blocks so player height ald width looks like this:
-    Block* block = new Dirt();
     int player_width = player.getWidth()/block->getSize();
 
     // checks if after move, player isn't out of board
@@ -90,7 +90,6 @@ bool Controller::checkMoveCollision(Dir dir) const
 bool Controller::checkJumpCollision() const
 {
     // We are moving in blocks so player height ald width looks like this:
-    Block* block = new Dirt();
     int player_height = player.getHeight()/block->getSize();
 
     // checks if after move, player isn't out of board
@@ -118,7 +117,6 @@ bool Controller::checkJumpCollision() const
 void Controller::breakBlock(int mouse_col, int mouse_row)
 {
     // I could declare every type of block adn write "Block* block = &dirt;" but that would be pointless so just delare class in the place of the block;
-    Block* block = new Dirt();
     static int updates_passed = 0;
     static int last_clicked_block_col = -1;
     static int last_clicked_block_row = -1;
@@ -152,25 +150,25 @@ void Controller::breakBlock(int mouse_col, int mouse_row)
         case A:
             return;
         case D:
-            block = new Dirt();
+            block = &dirt;
             break;
         case G:
-            block = new Grass();
+            block = &grass;
             break;
         case W:
-            block = new Wood();
+            block = &wood;
             break;
         case L:
-            block = new Leaves();
+            block = &leaves;
             break;
         case S:
-            block = new Stone();
+            block = &stone;
             break;
         case C:
-            block = new Chest();
+            block = &chest;
             break;
         case T:
-            block = new Crafting();
+            block = &crafting;
             break;
     }
 
@@ -188,6 +186,50 @@ void Controller::breakBlock(int mouse_col, int mouse_row)
     }
     last_clicked_block_col = block_col;
     last_clicked_block_row = block_row;
+}
+
+
+// Place block:
+// - calculates position of click on map
+// - checks if block is in range
+// - check if there is no block at that place
+// - take one item from active slot in an inveentory and read what have you taken
+// - add that block to that place
+void Controller::placeBlock(int mouse_col, int mouse_row)
+{
+    // - calculates position of click on map
+    double block_col = (mouse_col - player.getWinPosCol())/block->getSize() + player.getPositionCol();
+    double block_row = (mouse_row - player.getWinPosRow() - player.getHeight())/block->getSize() + player.getPositionRow();
+
+    // distance realative to center of player
+    double dist_to_player_col = player.getPositionCol() + 0.5 - block_col;
+    double dist_to_player_row = player.getPositionRow() - 1 - block_row;
+    double dist_to_player = sqrt(dist_to_player_col*dist_to_player_col + dist_to_player_row*dist_to_player_row);
+
+    // - checks if block is in range
+    if(dist_to_player > BLOCK_RANGE) return;
+
+    // form now we'll need intagers to check blocks on map
+    block_col = floor(block_col);
+    block_row = floor(block_row);
+    // checks if block is not outsise of the world
+    if(block_col < 0 || block_col >= world.getWidth() || block_row < 0 || block_row >= world.getHeight()) return;
+
+    // check if there is nothing in the place of the block
+    if(world.getBlock(block_col, block_row) != A) return; 
+
+    // check if we don't want to place it inside player
+    if((block_col == floor(player.getPositionCol())
+    && (block_row == floor(player.getPositionRow()) ||  block_row == floor(player.getPositionRow()-1) ||  block_row == floor(player.getPositionRow()-1.9)))
+    || (block_col == floor(player.getPositionCol()+1)
+    && (block_row == floor(player.getPositionRow()) ||  block_row == floor(player.getPositionRow()-1) ||  block_row == floor(player.getPositionRow()-1.9))))
+        return;
+
+    // - take one item from active slot in an inveentory and read what have you taken
+    block = eq.pullItem();
+
+    // - add that block to that place
+    if(block != nullptr) world.setBlock((int)block_col, (int)block_row, block->getBlockSign());
 }
 
 

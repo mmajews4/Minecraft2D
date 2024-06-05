@@ -85,12 +85,6 @@ void SFMLView::renderEq(sf::RenderWindow &window) const
 }
 
 
-void SFMLView::renderMenu(sf::RenderWindow &window) const
-{
-
-}
-
-
 void SFMLView::display(sf::RenderWindow &window)
 {
     // clear the window with black color
@@ -100,7 +94,6 @@ void SFMLView::display(sf::RenderWindow &window)
     renderWorld(window);
     renderPlayer(window);
     renderEq(window);
-    renderMenu(window);
     
     // Display the content
     window.display();

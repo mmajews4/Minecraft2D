@@ -35,6 +35,12 @@ class Equipment {
     int active_slot;
 
     Dirt dirt;
+    Grass grass;
+    Wood wood;
+    Leaves leaves;
+    Stone stone;
+    Chest chest;
+    Crafting crafting;
 
 public:
 
@@ -44,9 +50,8 @@ public:
     void pushItem(Block*);
 
     // Pulls given item from eq
-    // - return 1 if item is in eq
-    // - return 0 if requested item is not in eq
-    bool pullItem(Block*);
+    // - returns block form active 
+    Block* pullItem();
 
     // Changes active slot in given direction
     void scroll(Dir);

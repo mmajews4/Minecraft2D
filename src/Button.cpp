@@ -56,11 +56,6 @@ bool Button::isActive() const
 // Display button on screen
 void Button::display(sf::RenderWindow &window)
 {
-    // Import font
-    GameFont font;
-
-    // Create a text object
-    sf::Text text_view;
     text_view.setFont(font.font);
     text_view.setStyle(sf::Text::Bold);
     text_view.setFillColor(sf::Color(0, 0, 0));
