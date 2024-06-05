@@ -5,7 +5,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "GameFont.h"
-#include "Dirt.h"
+#include "Blocks/Dirt.h"
 #include "Button.h"
 
 using namespace std;

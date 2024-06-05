@@ -13,6 +13,14 @@ class SFMLView {
     Player &player;
     Equipment &eq;
 
+    Dirt dirt;
+    Grass grass;
+    Stone stone;
+    Wood wood;
+    Leaves leaves;
+    Chest chest;
+    Crafting crafting;
+
     int window_width, window_height;    // In pixels
     int width, height;                  // In blocks
 

@@ -155,22 +155,22 @@ void Controller::breakBlock(int mouse_col, int mouse_row)
             block = new Dirt();
             break;
         case G:
-
+            block = new Grass();
             break;
         case W:
-
+            block = new Wood();
             break;
         case L:
-
+            block = new Leaves();
             break;
         case S:
-
+            block = new Stone();
             break;
         case C:
-
+            block = new Chest();
             break;
         case T:
-
+            block = new Crafting();
             break;
     }
 

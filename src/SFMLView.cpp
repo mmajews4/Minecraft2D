@@ -36,7 +36,7 @@ void SFMLView::setBlockPosition(T &block, int col, int row)
 void SFMLView::renderWorld(sf::RenderWindow &window)
 {
     Block* block = nullptr;
-    Dirt dirt;
+
 
     for(int row = 0; row < height; row++){
         for(int col = 0; col < width; col++){
@@ -48,22 +48,22 @@ void SFMLView::renderWorld(sf::RenderWindow &window)
                     block = &dirt;
                     break;
                 case G:
-
+                    block = &grass;
                     break;
                 case W:
-
+                    block = &wood;
                     break;
                 case L:
-
+                    block = &leaves;
                     break;
                 case S:
-
+                    block = &stone;
                     break;
                 case C:
-
+                    block = &chest;
                     break;
                 case T:
-
+                    block = &crafting;
                     break;
             }
             setBlockPosition(block, col, row);

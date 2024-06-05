@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "Dirt.h"
+#include "Blocks/Dirt.h"
 
 
 class Player {

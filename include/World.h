@@ -4,7 +4,13 @@
 #include "Array2D.h"
 #include <iostream>
 #include <vector>
-#include "Dirt.h"
+#include "Blocks/Dirt.h"
+#include "Blocks/Grass.h"
+#include "Blocks/Wood.h"
+#include "Blocks/Leaves.h"
+#include "Blocks/Stone.h"
+#include "Blocks/Chest.h"
+#include "Blocks/Crafting.h"
 
 using namespace std;
 

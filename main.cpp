@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include "Array2D.h"
 #include "Button.h"
-#include "Dirt.h"
 #include "World.h"
 #include "Controller.h"
 #include "Equipment.h"
