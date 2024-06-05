@@ -5,7 +5,7 @@
 
 class Wood : public Block {
 
-    const int BREAK_TIME = 15;
+    const int BREAK_TIME = 12;
     const BlockSign BLOCK_SIGN = W;
 
 public:

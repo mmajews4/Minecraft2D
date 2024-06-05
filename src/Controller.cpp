@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Controller::Controller(World &w, Player &p) : world(w), player(p)
+Controller::Controller(World &w, Player &p, Equipment &e) : world(w), player(p), eq(e)
 {
     velocity = 0;
 }
@@ -150,7 +150,7 @@ void Controller::breakBlock(int mouse_col, int mouse_row)
     // - reads type of block
     switch(world.getBlock(block_col, block_row)){
         case A:
-            break;
+            return;
         case D:
             block = new Dirt();
             break;
@@ -184,6 +184,7 @@ void Controller::breakBlock(int mouse_col, int mouse_row)
     {
         // - breaks the block        
         world.setBlock((int)block_col, (int)block_row, A);
+        eq.pushItem(block);
     }
     last_clicked_block_col = block_col;
     last_clicked_block_row = block_row;

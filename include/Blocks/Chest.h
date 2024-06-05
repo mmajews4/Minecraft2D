@@ -5,7 +5,7 @@
 
 class Chest : public Block {
 
-    const int BREAK_TIME = 30;
+    const int BREAK_TIME = 15;
     const BlockSign BLOCK_SIGN = C;
 
 public:

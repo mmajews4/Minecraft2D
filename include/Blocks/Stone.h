@@ -5,7 +5,7 @@
 
 class Stone : public Block {
 
-    const int BREAK_TIME = 30;
+    const int BREAK_TIME = 20;
     const BlockSign BLOCK_SIGN = S;
 
 public:

@@ -10,26 +10,55 @@ Equipment::Equipment()
     text_offset = size*3/5;
     text_size = 20;
     text = "";
+    active_slot = 0;
 
     Slot empty_slot = {
-        Button(size, size, outline, left_offset, top_offset, text_offset, text_offset, text_size, text, 0),
+        Button(size, size, outline, left_offset, top_offset, text_offset, text_offset, text_size, text, false),
         nullptr,
-        0,
-        false
+        0
     };
     for(int slots_placed = 0; slots_placed < num_of_slots; slots_placed++)
     {
         slots.push_back(empty_slot);
-        slots[slots_placed].block = new Dirt();
+//        slots[slots_placed].block = new Dirt();
     }
-    slots[0].active = true;
+    slots[active_slot].button.setActive(true);
+    slots[2].block = new Grass();
 }
 
 
 // Adds given item to eq
-void Equipment::pushItem(Block*)
+// - go through whole eq to find if item is alerady in it
+// - if not set position at first empty spot
+// - add one item to this spot
+void Equipment::pushItem(Block* block)
 {
+    cout << "Pushed " << block->getBlockSign() << endl;
 
+    int slot_to_push = -1;
+
+    for(int slot_nr = 0; slot_nr < num_of_slots; slot_nr++)
+    {
+        if(slots[slot_nr].block == nullptr)
+        {
+            continue;
+        }
+        if(slots[slot_nr].block->getBlockSign() == block->getBlockSign())
+        {
+            slot_to_push = slot_nr;        
+        }
+    }
+    if(slot_to_push == -1)
+    {
+        for(int slot_nr = num_of_slots; slot_nr >= 0; slot_nr--)
+        {
+            if(slots[slot_nr].block == nullptr)
+            {
+                slot_to_push = slot_nr;        
+            }
+        }
+    }
+    if(slot_to_push != -1) slots[slot_to_push].num_of_items++;
 }
 
 
@@ -41,6 +70,23 @@ bool Equipment::pullItem(Block*)
     return 1;
 }
 
+
+// Changes active slot in given direction
+void Equipment::scroll(Dir dir)
+{
+    if(dir == RIGHT && active_slot < num_of_slots - 1)
+    {
+        slots[active_slot].button.setActive(false);
+        active_slot++;
+        slots[active_slot].button.setActive(true);
+    }
+    else if(dir == LEFT && active_slot > 0)
+    {
+        slots[active_slot].button.setActive(false);
+        active_slot--;
+        slots[active_slot].button.setActive(true);
+    }
+}
 
 void Equipment::display(sf::RenderWindow &window)
 {
@@ -60,12 +106,15 @@ void Equipment::display(sf::RenderWindow &window)
     {
         int slot_offset = left_offset + slots_updated*(size+2*outline);
         slots[slots_updated].button.setPosition(slot_offset, top_offset);
-        slots[slots_updated].block->setPosition(slot_offset, top_offset);
         slots[slots_updated].button.display(window);
-        slots[slots_updated].block->drawInEq(window);
-        text = to_string(slots[slots_updated].num_of_items);
-        text_view.setString(text);
-        text_view.setPosition(slot_offset + text_offset, top_offset + text_offset);
+        if(slots[slots_updated].num_of_items != 0)
+        {
+            slots[slots_updated].block->setPosition(slot_offset, top_offset);
+            slots[slots_updated].block->drawInEq(window);
+            text = to_string(slots[slots_updated].num_of_items);
+            text_view.setString(text);
+            text_view.setPosition(slot_offset + text_offset, top_offset + text_offset);
+        }
         window.draw(text_view);
     }
 

@@ -70,9 +70,9 @@ void Button::display(sf::RenderWindow &window)
 
     // Create buttons
     sf::RectangleShape button_view(sf::Vector2f(width, height));
-    if(active) button_view.setFillColor(sf::Color(120, 120, 120));
-    else button_view.setFillColor(sf::Color(180, 180, 180));
-    button_view.setOutlineColor(sf::Color(120, 120, 120));
+    if(active) button_view.setFillColor(sf::Color(200, 200, 200));
+    else button_view.setFillColor(sf::Color(150, 150, 150));
+    button_view.setOutlineColor(sf::Color(100, 100, 100));
     button_view.setOutlineThickness(outline);
     button_view.setPosition(left_offset, top_offset);
 

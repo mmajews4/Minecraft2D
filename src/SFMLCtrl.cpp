@@ -1,6 +1,6 @@
 #include "SFMLCtrl.h"
 
-SFMLCtrl::SFMLCtrl(Controller &c, SFMLView &v) : ctrl(c), view(v)
+SFMLCtrl::SFMLCtrl(Controller &c, SFMLView &v, Equipment &e) : ctrl(c), view(v), eq(e)
 {
     displayInterval = sf::seconds(ctrl.getGameSpeed());
     timeSinceLastDisplay = sf::Time::Zero;
@@ -26,7 +26,20 @@ void SFMLCtrl::run(sf::RenderWindow &window)
                 ctrl.jump();
             }
         }   
-*/    }
+        
+*/       // Handle mouse wheel scrolling
+        if (event.type == sf::Event::MouseWheelScrolled)
+        {
+            if (event.mouseWheelScroll.delta > 0)
+            {
+                eq.scroll(LEFT);
+            }
+            else if (event.mouseWheelScroll.delta < 0)
+            {
+                eq.scroll(RIGHT);
+            }
+        }
+    }
 
     // Measure the time elapsed since the last frame
     sf::Time dt = clock.restart();

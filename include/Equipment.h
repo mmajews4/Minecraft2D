@@ -2,19 +2,21 @@
 #define EQUIPMENT_H
 
 #include <string>
+#include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "GameFont.h"
-#include "Blocks/Dirt.h"
+#include "World.h"
 #include "Button.h"
 
 using namespace std;
+
+enum Dir { LEFT, RIGHT };
 
 struct Slot {
     Button button;
     Block* block;
     int num_of_items;
-    bool active;
 };
 
 class Equipment {
@@ -27,10 +29,10 @@ class Equipment {
     int text_offset;
     int text_size;
     string text;
-
     GameFont font;
 
     vector<Slot> slots;
+    int active_slot;
 
     Dirt dirt;
 
@@ -45,6 +47,9 @@ public:
     // - return 1 if item is in eq
     // - return 0 if requested item is not in eq
     bool pullItem(Block*);
+
+    // Changes active slot in given direction
+    void scroll(Dir);
 
     // Display on screen
     void display(sf::RenderWindow &);

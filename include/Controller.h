@@ -5,13 +5,13 @@
 #include <cmath>
 #include "World.h"
 #include "Player.h"
+#include "Equipment.h"
 
-enum Dir { LEFT, RIGHT};
 
 class Controller 
 {
     const int BLOCK_SIZE = 100;
-    const double BLOCK_RANGE = 3;
+    const double BLOCK_RANGE = 3.5;
     const double GAME_SPEED = 0.025;
     const double G_CONST = 0.04;    // Gravitational constant in blocks/game_speed^2
     const double JUMP_STARTING_VELOCITY = -0.32;
@@ -20,6 +20,7 @@ class Controller
 
     World &world;
     Player &player;
+    Equipment &eq;
 
     double velocity; // with coordinates as the rest of the board
 
@@ -33,7 +34,7 @@ class Controller
     void calculateGravity();
 
 public:
-    Controller(World &, Player &);
+    Controller(World &, Player &, Equipment &);
 
     float getGameSpeed() const;
 
