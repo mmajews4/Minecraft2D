@@ -5,6 +5,8 @@
 #include "SFMLView.h"
 #include "Equipment.h"
 
+#include "World.h"
+
 class SFMLCtrl {
 
     Controller &ctrl;

@@ -21,8 +21,6 @@ int main() {
     SFMLView view(world, player, eq);
     SFMLCtrl win_ctrl(ctrl, view, eq);
 
-    world.debugDisplayWorld();
-
     sf::RenderWindow window(sf::VideoMode(view.getWindowWidth(), view.getWindowHeight()), "Minecreft2D");
 
     while (window.isOpen()) {

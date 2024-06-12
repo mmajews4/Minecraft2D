@@ -50,7 +50,8 @@ public:
     void pushItem(Block*);
 
     // Pulls given item from eq
-    // - returns block form active 
+    // - returns block form active slot
+    // - decrements form numeber of blocks and if number of blocks, deletes block from that slot
     Block* pullItem();
 
     // Changes active slot in given direction

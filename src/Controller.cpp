@@ -226,10 +226,12 @@ void Controller::placeBlock(int mouse_col, int mouse_row)
         return;
 
     // - take one item from active slot in an inveentory and read what have you taken
-    block = eq.pullItem();
+    Block* pulled_block = eq.pullItem();
 
     // - add that block to that place
-    if(block != nullptr) world.setBlock((int)block_col, (int)block_row, block->getBlockSign());
+    if(pulled_block != nullptr) {
+        world.setBlock((int)block_col, (int)block_row, pulled_block->getBlockSign());
+    }
 }
 
 

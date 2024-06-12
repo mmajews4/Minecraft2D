@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(snake)
+project(Minecreft2D)
 
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -Wextra -pedantic -Werror=return-type -Werror=parentheses -Werror=vla -Werror=array-bounds -Wcast-qual -Wmaybe-uninitialized )
@@ -15,11 +15,23 @@ ENDIF()
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(snake
+add_executable(Minecreft2D
         main.cpp
+        GameFont.cpp
+        Button.cpp
+        Block.cpp
+        Blocks/Chest.cpp
+        Blocks/Crafting.cpp
+        Blocks/Dirt.cpp
+        Blocks/Grass.cpp
+        Blocks/Leaves.cpp
+        Blocks/Stone.cpp
+        Blocks/Wood.cpp
         Array2D.h
-        SnakeBoard.cpp
-        Snake.cpp
-        MSSFMLView.cpp
-        MSSFMLController.cpp)
-target_link_libraries(snake sfml-graphics sfml-window sfml-system)
+        World.cpp
+        Player.cpp
+        Controller.cpp
+        Equipment.cpp
+        SFMLView.cpp
+        SFMLCtrl.cpp)
+target_link_libraries(Minecreft2D sfml-graphics sfml-window sfml-system)
