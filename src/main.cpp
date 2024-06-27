@@ -15,11 +15,11 @@ using namespace std;
 int main() {
 
     World world;
-    Player player(10, 6);
     Equipment eq;
+    Player player(10, 6, world, eq);
     Controller ctrl(world, player, eq);
     SFMLView view(world, player, eq);
-    SFMLCtrl win_ctrl(ctrl, view, eq);
+    SFMLCtrl win_ctrl(ctrl, view, player, eq);
 
     sf::RenderWindow window(sf::VideoMode(view.getWindowWidth(), view.getWindowHeight()), "Minecreft2D");
 

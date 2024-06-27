@@ -1,11 +1,5 @@
 #include "../../include/Blocks/Stone.h"
 
-Stone::Stone(int col, int row) : Block()
-{
-    setTexture("assets/textures/stone.jpg");
-    setPosition(col, row);
-}
-
 Stone::Stone() : Block()
 {
     setTexture("assets/textures/stone.jpg");

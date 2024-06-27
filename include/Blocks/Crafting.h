@@ -9,7 +9,6 @@ class Crafting : public Block {
     const BlockSign BLOCK_SIGN = T;
 
 public:
-    Crafting(int col, int row);
     Crafting();
 
     virtual int getBreakeTime() const;

@@ -9,7 +9,6 @@ class Dirt : public Block {
     const BlockSign BLOCK_SIGN = D;
 
 public:
-    Dirt(int col, int row);
     Dirt();
 
     virtual int getBreakeTime() const;

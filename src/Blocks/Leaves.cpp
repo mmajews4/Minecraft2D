@@ -1,11 +1,5 @@
 #include "../../include/Blocks/Leaves.h"
 
-Leaves::Leaves(int col, int row) : Block()
-{
-    setTexture("assets/textures/leaves.jpg");
-    setPosition(col, row);
-}
-
 Leaves::Leaves() : Block()
 {
     setTexture("assets/textures/leaves.jpg");

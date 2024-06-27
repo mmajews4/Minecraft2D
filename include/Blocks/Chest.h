@@ -9,7 +9,6 @@ class Chest : public Block {
     const BlockSign BLOCK_SIGN = C;
 
 public:
-    Chest(int col, int row);
     Chest();
 
     virtual int getBreakeTime() const;

@@ -1,11 +1,5 @@
 #include "../../include/Blocks/Grass.h"
 
-Grass::Grass(int col, int row) : Block()
-{
-    setTexture("assets/textures/grass.jpg");
-    setPosition(col, row);
-}
-
 Grass::Grass() : Block()
 {
     setTexture("assets/textures/grass.jpg");

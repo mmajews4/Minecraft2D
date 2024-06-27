@@ -10,6 +10,7 @@
 class SFMLCtrl {
 
     Controller &ctrl;
+    Player &player;
     Equipment &eq;
     SFMLView &view;
 
@@ -17,7 +18,7 @@ class SFMLCtrl {
     sf::Time timeSinceLastDisplay;
 
 public:
-    SFMLCtrl(Controller &, SFMLView &, Equipment &);
+    SFMLCtrl(Controller &, SFMLView &,  Player &, Equipment &);
 
     // Function handles keyboard actions
     void run(sf::RenderWindow &);

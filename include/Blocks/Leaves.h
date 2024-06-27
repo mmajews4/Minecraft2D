@@ -9,7 +9,6 @@ class Leaves : public Block {
     const BlockSign BLOCK_SIGN = L;
 
 public:
-    Leaves(int col, int row);
     Leaves();
 
     virtual int getBreakeTime() const;

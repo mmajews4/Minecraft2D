@@ -9,7 +9,6 @@ class Grass : public Block {
     const BlockSign BLOCK_SIGN = G;
 
 public:
-    Grass(int col, int row);
     Grass();
 
     virtual int getBreakeTime() const;

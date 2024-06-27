@@ -1,6 +1,6 @@
 #include "SFMLCtrl.h"
 
-SFMLCtrl::SFMLCtrl(Controller &c, SFMLView &v, Equipment &e) : ctrl(c), view(v), eq(e)
+SFMLCtrl::SFMLCtrl(Controller &c, SFMLView &v, Player &p, Equipment &e) : ctrl(c), view(v), player(p), eq(e)
 {
     displayInterval = sf::seconds(ctrl.getGameSpeed());
     timeSinceLastDisplay = sf::Time::Zero;
@@ -50,21 +50,21 @@ void SFMLCtrl::run(sf::RenderWindow &window)
     { 
         // Check for continuous key presses
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            ctrl.movePlayer(LEFT);
+            player.move(LEFT);
         }
         if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            ctrl.movePlayer(RIGHT);
+            player.move(RIGHT);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            ctrl.jump();
+            player.jump();
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-            ctrl.breakBlock(mouse_pos.x, mouse_pos.y);
+            player.breakBlock(mouse_pos.x, mouse_pos.y);
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
             sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-            ctrl.placeBlock(mouse_pos.x, mouse_pos.y);
+            player.placeBlock(mouse_pos.x, mouse_pos.y);
         }
 
         ctrl.update();

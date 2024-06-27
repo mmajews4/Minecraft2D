@@ -9,7 +9,6 @@ class Stone : public Block {
     const BlockSign BLOCK_SIGN = S;
 
 public:
-    Stone(int col, int row);
     Stone();
 
     virtual int getBreakeTime() const;

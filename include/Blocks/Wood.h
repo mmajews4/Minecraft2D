@@ -9,7 +9,6 @@ class Wood : public Block {
     const BlockSign BLOCK_SIGN = W;
 
 public:
-    Wood(int col, int row);
     Wood();
 
     virtual int getBreakeTime() const;
