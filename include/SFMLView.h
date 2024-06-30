@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Zombie.h"
 #include "Equipment.h"
+#include "Controller.h"
 
 
 class SFMLView {
@@ -13,7 +14,9 @@ class SFMLView {
     World &world;
     Player &player;
     Equipment &eq;
+    Controller &ctrl;
     vector<Entity*> &entities;
+    GameFont font;
 
     Dirt dirt;
     Grass grass;
@@ -25,6 +28,7 @@ class SFMLView {
 
     int window_width, window_height;    // In pixels
     int width, height;                  // In blocks
+    int killed_flag;
 
     // Calculates block position on window relative to the player
     // sets the calculated position 
@@ -34,16 +38,17 @@ class SFMLView {
     // Calculates entity position on window relative to the player
     // sets the calculated position 
     template <typename T>
-    void setEntityPosition(T &entity, int col, int row);
+    void setEntityPosition(T &entity, double col, double row);
     
     // Renders very part of a game
     void renderWorld(sf::RenderWindow &);
     void renderEntities(sf::RenderWindow &);
     void renderEq(sf::RenderWindow &);
+    void renderDeathMessage(sf::RenderWindow &);
 
 public:
 
-    SFMLView(World &, Player &, Equipment &, vector<Entity*> &en);
+    SFMLView(World &, Player &, Equipment &, Controller &, vector<Entity*> &en);
 
     // Simple getters
     int getWindowHeight() const;

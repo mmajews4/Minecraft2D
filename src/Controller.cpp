@@ -4,14 +4,23 @@ using namespace std;
 
 Controller::Controller(World &w, Player &p, Equipment &e, vector<Entity*> &en) : world(w), player(p), eq(e), entities(en)
 {
-//    velocity = 0;
-//    block = &dirt; // Any block just to take its size
+    state = RUNNING;
 }
 
 
 float Controller::getGameSpeed() const
 {
     return GAME_SPEED;
+}
+
+GameState Controller::getGameState() const
+{
+    return state;
+}
+
+void Controller::setGameState(GameState s)
+{
+    state = s;
 }
 
 void Controller::spawnZombie()
@@ -32,8 +41,6 @@ void Controller::spawnZombie()
 // - Make zombie move towards Player
 // - Jump over 1 block
 // - Hurt player if he touches him
-// - Take demage if player hits him
-// - Die if no health
 void Controller::updateZombies()
 {
     // check for every zombie
@@ -41,20 +48,22 @@ void Controller::updateZombies()
     {
         // - Make zombie move towards Player
         // - Jump over 1 block
-        if(player.getPositionCol() < zombie->getPositionCol())
+        if(zombie->getPositionCol() >= player.getPositionCol() + 1)
         {
             zombie->move(LEFT);
             if(zombie->checkMoveCollision(LEFT)) zombie->jump();
-        } else {
+        } 
+        else if(zombie->getPositionCol() <= player.getPositionCol() - 1) 
+        {
             zombie->move(RIGHT);
             if(zombie->checkMoveCollision(RIGHT)) zombie->jump();
         }
 
         // - Hurt player if he touches him
-        if((zombie->getPositionCol() >= player.getPositionCol() && zombie->getPositionCol() <= player.getPositionCol()+1)
-        || (zombie->getPositionRow() >= player.getPositionRow() && zombie->getPositionRow() <= player.getPositionRow()+2))
+        if((zombie->getPositionCol() >= player.getPositionCol() - 1 && zombie->getPositionCol() <= player.getPositionCol() + 1)
+        && (zombie->getPositionRow() >= player.getPositionRow() - 2 && zombie->getPositionRow() <= player.getPositionRow() + 2))
         {
-            player.takeDamage();
+            player.takeDamage(zombie->getDamage());
         }
     }
 }
@@ -64,6 +73,7 @@ void Controller::updateZombies()
 // - checks collisions
 // - calculates gravity
 // - moves player
+// - die if player has no health
 void Controller::update()
 {
     player.calculateGravity();
@@ -74,4 +84,13 @@ void Controller::update()
     {
         entity->calculateGravity();
     }
+
+    // - die if player has no health
+    if(player.getHealth() <= 0){
+        state = PLAYER_KILLED;
+        player.setPosition(10, 6);
+        player.resetHelath();
+        for(auto& entity: entities) delete entity;
+        entities.clear();
+    } 
 }

@@ -18,6 +18,7 @@ class Entity {
     int window_position_col;
     double health;
     double damage;
+    double move_rate;   // how many blocks entity goes every update
 
     sf::Texture texture;
 
@@ -27,7 +28,6 @@ class Entity {
     const double G_CONST = 0.04;    // Gravitational constant in blocks/game_speed^2
     const double JUMP_STARTING_VELOCITY = -0.32;
     const double MAX_VELOCITY = 0.32;
-    const double MOVE_RATE = 0.1;   // how many blocks entity goes every update
     const double MAX_HEALTH = 20;
 
     double velocity; // with coordinates as the rest of the board
@@ -47,9 +47,12 @@ public:
     void setPosition(double col, double row);
     void setWinPosition(double col, double row);
     void setDimensions(int w, int h);
+    void setMoveRate(double);
     void resetHelath();
-    void takeDamage();
+    void takeDamage(double);
     void setDamage(double);
+    double getDamage() const;
+    double getHealth() const;
 
     void setTexture(std::string);
 

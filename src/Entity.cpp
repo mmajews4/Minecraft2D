@@ -56,19 +56,34 @@ void Entity::setDimensions(int w, int h)
     height = h;
 }
 
+void Entity::setMoveRate(double mr)
+{
+    move_rate = mr;
+}
+
 void Entity::resetHelath()
 {
     health = MAX_HEALTH;
 }
 
-void Entity::takeDamage()
+void Entity::takeDamage(double damage_taken)
 {
-    health = health - damage;
+    health = health - damage_taken;
 }
 
 void Entity::setDamage(double d)
 {
     damage = d;
+}
+
+double Entity::getDamage() const
+{
+    return damage;
+}
+
+double Entity::getHealth() const
+{
+    return health;
 }
 
 
@@ -113,8 +128,8 @@ void Entity::move(Dir dir)
 {
     if(checkMoveCollision(dir) == 0)
     {
-        if(dir == LEFT) position_col = position_col - MOVE_RATE;
-        if(dir == RIGHT) position_col = position_col + MOVE_RATE;
+        if(dir == LEFT) position_col = position_col - move_rate;
+        if(dir == RIGHT) position_col = position_col + move_rate;
     }
 }
 
@@ -125,14 +140,14 @@ void Entity::move(Dir dir)
 bool Entity::checkMoveCollision(Dir dir) const
 {
     // checks if after move, player isn't out of board
-    if((position_col - MOVE_RATE < 0 && dir == LEFT)
-    || (position_col + MOVE_RATE + 1 >= world.getWidth() && dir == RIGHT)) return true;
+    if((position_col - move_rate < 0 && dir == LEFT)
+    || (position_col + move_rate + 1 >= world.getWidth() && dir == RIGHT)) return true;
 
     // checks if after move, player isn't in the block
-    if((world.getBlock(floor(position_col - MOVE_RATE), floor(position_row - 0.01)) != A && dir == LEFT)
-    || (world.getBlock(floor(position_col + MOVE_RATE + 1), floor(position_row - 0.01)) != A && dir == RIGHT)
-    || (world.getBlock(floor(position_col - MOVE_RATE), floor(position_row - 1.01)) != A && dir == LEFT)
-    || (world.getBlock(floor(position_col + MOVE_RATE + 1), floor(position_row - 1.01)) != A && dir == RIGHT)) return true;
+    if((world.getBlock(floor(position_col - move_rate), floor(position_row - 0.01)) != A && dir == LEFT)
+    || (world.getBlock(floor(position_col + move_rate + 1), floor(position_row - 0.01)) != A && dir == RIGHT)
+    || (world.getBlock(floor(position_col - move_rate), floor(position_row - 1.01)) != A && dir == LEFT)
+    || (world.getBlock(floor(position_col + move_rate + 1), floor(position_row - 1.01)) != A && dir == RIGHT)) return true;
 
     return false;
 }

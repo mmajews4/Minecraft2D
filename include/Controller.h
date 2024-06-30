@@ -10,12 +10,14 @@
 #include "Zombie.h"
 #include "Equipment.h"
 
+enum GameState {RUNNING, PLAYER_KILLED};
 
 class Controller 
 {
 //    const int BLOCK_SIZE = 100;
     const double GAME_SPEED = 0.025;
-    const int ZOMBIE_SPAWN_CHANCE = 200; // 1 in how many game updates zombie can spawn
+    const int ZOMBIE_SPAWN_CHANCE = 500; // 1 in how many game updates zombie can spawn
+    GameState state;
 
     World &world;
     Player &player;
@@ -27,6 +29,8 @@ public:
     Controller(World &, Player &, Equipment &, vector<Entity*> &en);
 
     float getGameSpeed() const;
+    GameState getGameState() const;
+    void setGameState(GameState);
 
     // Spawns zombie based on given chanse
     void spawnZombie();
@@ -38,10 +42,16 @@ public:
     // - Die if no health
     void updateZombies();
 
+    // After mouse button click:
+    // - checks if it is in range of any enemies
+    // - if yes, take damage to entity
+    void hitEntity(int col, int row);
+
     // Updates currnet state of the game:
     // - checks collisions
     // - calculates gravity
     // - moves player
+    // - checks if player died
     void update();
 };
 

@@ -2,10 +2,14 @@
 
 using namespace std;
 
-Player::Player(double pc, double pr, World &w, Equipment &e) : Entity(pc, pr, w), wrld(w), eq(e)
+Player::Player(double pc, double pr, World &w, Equipment &e, vector<Entity*> &en) : Entity(pc, pr, w), wrld(w), eq(e), entities(en)
 {
     setTexture(texture);
     setDamage(5);
+    setMoveRate(0.1);
+    health_bar_width = getHealth() * 4.5;
+    health_bar_height = 15;
+    health_bar_offset = 5;
 }
 
 
@@ -25,8 +29,8 @@ void Player::breakBlock(int mouse_col, int mouse_row)
     static int last_clicked_block_row = -1;
 
     // - calculates position of click on map
-    double block_col = (mouse_col - getWinPosCol())/block->getSize() + getPositionCol();
-    double block_row = (mouse_row - getWinPosRow() - getHeight())/block->getSize() + getPositionRow();
+    double block_col = (mouse_col - getWinPosCol())/dirt.getSize() + getPositionCol();
+    double block_row = (mouse_row - getWinPosRow() - getHeight())/dirt.getSize() + getPositionRow();
 
     // distance realative to center of player
     double dist_to_player_col = getPositionCol() + 0.5 - block_col;
@@ -101,8 +105,8 @@ void Player::breakBlock(int mouse_col, int mouse_row)
 void Player::placeBlock(int mouse_col, int mouse_row)
 {
     // - calculates position of click on map
-    double block_col = (mouse_col - getWinPosCol())/block->getSize() + getPositionCol();
-    double block_row = (mouse_row - getWinPosRow() - getHeight())/block->getSize() + getPositionRow();
+    double block_col = (mouse_col - getWinPosCol())/dirt.getSize() + getPositionCol();
+    double block_row = (mouse_row - getWinPosRow() - getHeight())/dirt.getSize() + getPositionRow();
 
     // distance realative to center of player
     double dist_to_player_col = getPositionCol() + 0.5 - block_col;
@@ -135,4 +139,60 @@ void Player::placeBlock(int mouse_col, int mouse_row)
     if(pulled_block != nullptr) {
         wrld.setBlock((int)block_col, (int)block_row, pulled_block->getBlockSign());
     }
+}
+
+
+// - calculate position of clisk on map
+// - check if entity was hit
+// - if entity has no health, kill him
+void Player::hitEntity(int mouse_col, int mouse_row)
+{
+    // - calculates position of click on map
+    double hit_col = (mouse_col - getWinPosCol())/dirt.getSize() + getPositionCol();
+    double hit_row = (mouse_row - getWinPosRow() - getHeight())/dirt.getSize() + getPositionRow();
+
+    // distance realative to center of player
+    double dist_to_player_col = getPositionCol() + 0.5 - hit_col;
+    double dist_to_player_row = getPositionRow() - 1 - hit_row;
+    double dist_to_player = sqrt(dist_to_player_col*dist_to_player_col + dist_to_player_row*dist_to_player_row);
+
+    // - checks if entity is in range
+    if(dist_to_player > BLOCK_RANGE/2) return;
+
+    // check for every entity
+    for(int iter = 0; iter < (int)entities.size(); iter++)
+    {
+        // - check if entity was hit
+        if(entities[iter]->getPositionCol() <= hit_col && entities[iter]->getPositionCol() + 1 >= hit_col
+        && entities[iter]->getPositionRow() >= hit_row && entities[iter]->getPositionRow() - 2 <= hit_row)
+        {
+            entities[iter]->takeDamage(getDamage());
+            entities[iter]->jump();
+        }
+
+        // - if entity has no health, kill him
+        if(entities[iter]->getHealth() <= 0)
+        {
+            delete entities[iter];
+            entities.erase(entities.begin() + iter);
+        }
+    }
+}
+
+
+// Displays healtbar
+void Player::displayHelath(sf::RenderWindow &window)
+{
+    // Create health bar outline
+    sf::RectangleShape health_bar_outline(sf::Vector2f(health_bar_width + 2 * health_bar_offset, health_bar_height + 2 * health_bar_offset));
+    health_bar_outline.setFillColor(sf::Color(100, 100, 100));
+    health_bar_outline.setPosition(eq.getWinPositionCol() - health_bar_offset, eq.getWinPositionRow() - 4 * health_bar_offset - health_bar_height);
+    window.draw(health_bar_outline);
+
+    // Create health bar
+    if(getHealth() <= 0) return;
+    sf::RectangleShape health_bar(sf::Vector2f(getHealth() * 4.5, health_bar_height));
+    health_bar.setFillColor(sf::Color::Red);
+    health_bar.setPosition(eq.getWinPositionCol(), eq.getWinPositionRow() - 3 * health_bar_offset - health_bar_height);
+    window.draw(health_bar);
 }

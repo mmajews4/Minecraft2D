@@ -1,6 +1,6 @@
 #include "SFMLCtrl.h"
 
-SFMLCtrl::SFMLCtrl(Controller &c, SFMLView &v, Player &p, Equipment &e) : ctrl(c), view(v), player(p), eq(e)
+SFMLCtrl::SFMLCtrl(Controller &c, Player &p, Equipment &e, SFMLView &v) : ctrl(c), player(p), eq(e), view(v)
 {
     displayInterval = sf::seconds(ctrl.getGameSpeed());
     timeSinceLastDisplay = sf::Time::Zero;
@@ -21,13 +21,14 @@ void SFMLCtrl::run(sf::RenderWindow &window)
             window.close();
         }
         // One time key press
-/*        else if (event.type == sf::Event::KeyPressed) {
-            if(event.key.code == sf::Keyboard::W) {
-                ctrl.jump();
+        else if (event.type == sf::Event::MouseButtonPressed) {
+            if(event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+                player.hitEntity(mouse_pos.x, mouse_pos.y);
             }
         }   
         
-*/       // Handle mouse wheel scrolling
+       // Handle mouse wheel scrolling
         if (event.type == sf::Event::MouseWheelScrolled)
         {
             if (event.mouseWheelScroll.delta > 0)

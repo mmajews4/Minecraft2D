@@ -25,6 +25,16 @@ Equipment::Equipment()
     slots[active_slot].button.setActive(true);
 }
 
+int Equipment::getWinPositionCol() const
+{
+    return left_offset;
+}
+
+int Equipment::getWinPositionRow() const
+{
+    return top_offset;
+}
+
 
 // Adds given item to eq
 // - go through whole eq to find if item is alerady in it

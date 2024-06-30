@@ -16,11 +16,11 @@ int main() {
 
     World world;
     Equipment eq;
-    Player player(10, 6, world, eq);
     vector<Entity*> entities;
+    Player player(10, 6, world, eq, entities);
     Controller ctrl(world, player, eq, entities);
-    SFMLView view(world, player, eq, entities);
-    SFMLCtrl win_ctrl(ctrl, view, player, eq);
+    SFMLView view(world, player, eq, ctrl, entities);
+    SFMLCtrl win_ctrl(ctrl, player, eq, view);
 
     sf::RenderWindow window(sf::VideoMode(view.getWindowWidth(), view.getWindowHeight()), "Minecreft2D");
 

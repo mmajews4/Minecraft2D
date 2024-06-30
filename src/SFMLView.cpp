@@ -2,11 +2,12 @@
 
 #include <iostream>
 
-SFMLView::SFMLView(World &w, Player &p, Equipment &e, vector<Entity*> &en) : world(w), player(p), eq(e), entities(en)
+SFMLView::SFMLView(World &w, Player &p, Equipment &e, Controller &c, vector<Entity*> &en) : world(w), player(p), eq(e), ctrl(c), entities(en)
 {
     window_width = 1000, window_height = 600;
     height = world.getHeight();
     width = world.getWidth();
+    killed_flag = 0;
 }
 
 
@@ -36,12 +37,12 @@ void SFMLView::setBlockPosition(T &block, int col, int row)
 // Calculates entity position on window relative to the player
 // sets the calculated position 
 template <typename T>
-void SFMLView::setEntityPosition(T &entity, int col, int row)
+void SFMLView::setEntityPosition(T &entity, double col, double row)
 {
     Dirt block;
-    int pos_col = (col - player.getPositionCol())* block.getSize() + player.getWinPosCol();
+    double pos_col = (col - player.getPositionCol())* block.getSize() + player.getWinPosCol();
     // need to offset that because I want player coordinates to be his legs not head
-    int pos_row = (row - player.getPositionRow())* block.getSize() + player.getWinPosRow();
+    double pos_row = (row - player.getPositionRow())* block.getSize() + player.getWinPosRow();
     entity->setWinPosition(pos_col, pos_row);
 }
 
@@ -90,26 +91,45 @@ void SFMLView::renderEntities(sf::RenderWindow &window)
 {
     player.draw(window);
 
-/*    //cout << entities.size() << endl;
-    if(entities.size() >= 1)
-    {
-        setEntityPosition(entities[0], entities[0]->getPositionCol(), entities[0]->getPositionRow());
-
-        cout << entities[0]->getWinPosCol() << " , " << entities[0]->getWinPosRow() << endl;
-
-        entities[0]->draw(window);
-    }*/
     for(const auto& entity: entities)
     {
         setEntityPosition(entity, entity->getPositionCol(), entity->getPositionRow());
         entity->draw(window);
     }
+
+    player.displayHelath(window);
 }
 
 
 void SFMLView::renderEq(sf::RenderWindow &window)
 {
     eq.display(window);
+}
+
+
+void SFMLView::renderDeathMessage(sf::RenderWindow &window)
+{
+    if(ctrl.getGameState() == PLAYER_KILLED) 
+    {
+        killed_flag = 200;
+        ctrl.setGameState(RUNNING);
+    }
+    if(killed_flag > 0) 
+    {
+        // Display Death message
+        sf::Text text_view;
+        text_view.setPosition(300, 225);
+        text_view.setFont(font.font);
+        text_view.setStyle(sf::Text::Bold);
+        text_view.setFillColor(sf::Color::White);
+        text_view.setOutlineThickness(8);
+        text_view.setOutlineColor(sf::Color::Red);
+        text_view.setCharacterSize(80);
+        text_view.setString("You Died!");
+        window.draw(text_view);
+
+        killed_flag--;
+    }
 }
 
 
@@ -122,6 +142,7 @@ void SFMLView::display(sf::RenderWindow &window)
     renderWorld(window);
     renderEntities(window);
     renderEq(window);
+    renderDeathMessage(window);
     
     // Display the content
     window.display();

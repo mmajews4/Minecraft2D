@@ -46,6 +46,9 @@ public:
 
     Equipment();
 
+    int getWinPositionCol() const;
+    int getWinPositionRow() const;
+
     // Adds given item to eq
     void pushItem(Block*);
 
