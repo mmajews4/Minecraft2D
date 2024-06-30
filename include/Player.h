@@ -7,10 +7,7 @@ class Player : public Entity {
 
     std::string texture = "assets/textures/Player.png";
 
-    //    const int BLOCK_SIZE = 100;
     const double BLOCK_RANGE = 3.5;
-
-    double velocity; // with coordinates as the rest of the board
 
     World &wrld;
     Equipment &eq;
@@ -44,40 +41,6 @@ public:
     // - take one item from active slot in an inveentory and read what have you taken
     // - add that block to that place
     void placeBlock(int mouse_col, int mouse_row);
-/*
-    int height;
-    int width;
-    double position_row;
-    double position_col;
-    int window_position_row;
-    int window_position_col;
-    double move_rate;s
-
-    sf::Texture texture;
-
-    World &world;
-    Equipment &eq;
-
-public:
-
-    // initial position
-    Player(double pc, double pr, World &w, Equipment &e);
-
-    int getHeight() const;
-    int getWidth() const;
-    double getPositionRow() const;
-    double getPositionCol() const;
-    double getWinPosRow() const;
-    double getWinPosCol() const;
-    void setPosition(double col, double row);
-    void setPlayerDimensions(int w, int h);
-
-    void setTexture(std::string);
-
-    // Display on screen
-    void draw(sf::RenderWindow &);
-
-    */
 };
 
 #endif

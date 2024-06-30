@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-SFMLView::SFMLView(World &w, Player &p, Equipment &e) : world(w), player(p), eq(e)
+SFMLView::SFMLView(World &w, Player &p, Equipment &e, vector<Entity*> &en) : world(w), player(p), eq(e), entities(en)
 {
     window_width = 1000, window_height = 600;
     height = world.getHeight();
@@ -30,6 +30,19 @@ void SFMLView::setBlockPosition(T &block, int col, int row)
     // need to offset that because I want player coordinates to be his legs not head
     int pos_row = (row - player.getPositionRow())* block->getSize() + player.getWinPosRow() + player.getHeight();
     block->setPosition(pos_col, pos_row);
+}
+
+
+// Calculates entity position on window relative to the player
+// sets the calculated position 
+template <typename T>
+void SFMLView::setEntityPosition(T &entity, int col, int row)
+{
+    Dirt block;
+    int pos_col = (col - player.getPositionCol())* block.getSize() + player.getWinPosCol();
+    // need to offset that because I want player coordinates to be his legs not head
+    int pos_row = (row - player.getPositionRow())* block.getSize() + player.getWinPosRow();
+    entity->setWinPosition(pos_col, pos_row);
 }
 
 
@@ -73,13 +86,28 @@ void SFMLView::renderWorld(sf::RenderWindow &window)
 }
 
 
-void SFMLView::renderPlayer(sf::RenderWindow &window) const
+void SFMLView::renderEntities(sf::RenderWindow &window)
 {
     player.draw(window);
+
+/*    //cout << entities.size() << endl;
+    if(entities.size() >= 1)
+    {
+        setEntityPosition(entities[0], entities[0]->getPositionCol(), entities[0]->getPositionRow());
+
+        cout << entities[0]->getWinPosCol() << " , " << entities[0]->getWinPosRow() << endl;
+
+        entities[0]->draw(window);
+    }*/
+    for(const auto& entity: entities)
+    {
+        setEntityPosition(entity, entity->getPositionCol(), entity->getPositionRow());
+        entity->draw(window);
+    }
 }
 
 
-void SFMLView::renderEq(sf::RenderWindow &window) const
+void SFMLView::renderEq(sf::RenderWindow &window)
 {
     eq.display(window);
 }
@@ -92,7 +120,7 @@ void SFMLView::display(sf::RenderWindow &window)
 
     // Render all objects on screen
     renderWorld(window);
-    renderPlayer(window);
+    renderEntities(window);
     renderEq(window);
     
     // Display the content

@@ -16,6 +16,8 @@ class Entity {
     double position_col;
     int window_position_row;
     int window_position_col;
+    double health;
+    double damage;
 
     sf::Texture texture;
 
@@ -26,29 +28,16 @@ class Entity {
     const double JUMP_STARTING_VELOCITY = -0.32;
     const double MAX_VELOCITY = 0.32;
     const double MOVE_RATE = 0.1;   // how many blocks entity goes every update
+    const double MAX_HEALTH = 20;
 
     double velocity; // with coordinates as the rest of the board
-/*
-    Dirt dirt;
-    Grass grass;
-    Wood wood;
-    Leaves leaves;
-    Stone stone;
-    Chest chest;
-    Crafting crafting;
-    Block* block;
-*/
-    // - checks if after move, entity isn't out of board
-    // - checks if after move, entity isn't in the block
-    // - returns 0 if there was no collision and 1 if it happened
-    bool checkMoveCollision(Dir dir) const;
-    bool checkJumpCollision() const;
 
 public:
 
     // initial position
     Entity(double pc, double pr, World &w);
 
+    // Getters and setters
     int getHeight() const;
     int getWidth() const;
     double getPositionRow() const;
@@ -56,9 +45,19 @@ public:
     double getWinPosRow() const;
     double getWinPosCol() const;
     void setPosition(double col, double row);
+    void setWinPosition(double col, double row);
     void setDimensions(int w, int h);
+    void resetHelath();
+    void takeDamage();
+    void setDamage(double);
 
     void setTexture(std::string);
+
+    // - checks if after move, entity isn't out of board
+    // - checks if after move, entity isn't in the block
+    // - returns 0 if there was no collision and 1 if it happened
+    bool checkMoveCollision(Dir dir) const;
+    bool checkJumpCollision() const;
 
     // Moves the Entity according to gravity laws
     void calculateGravity();

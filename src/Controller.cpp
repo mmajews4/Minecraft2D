@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Controller::Controller(World &w, Player &p, Equipment &e) : world(w), player(p), eq(e)
+Controller::Controller(World &w, Player &p, Equipment &e, vector<Entity*> &en) : world(w), player(p), eq(e), entities(en)
 {
 //    velocity = 0;
 //    block = &dirt; // Any block just to take its size
@@ -14,99 +14,50 @@ float Controller::getGameSpeed() const
     return GAME_SPEED;
 }
 
-/*
-// Moves the player according to gravity laws
-void Controller::calculateGravity()
+void Controller::spawnZombie()
 {
-    double position_row;
+    // Generacja losowej liczby
+    random_device dev;
+    mt19937 rng(dev());
+    uniform_int_distribution<mt19937::result_type> chance(0, ZOMBIE_SPAWN_CHANCE);
 
-    if(checkJumpCollision() == 0)
+    int zombie_spawn_chance = chance(rng);
+    if(zombie_spawn_chance == 1)
     {
-        if(velocity < MAX_VELOCITY) velocity = velocity + G_CONST;
-        position_row = player.getPositionRow() + velocity;
-
-        player.setPosition(player.getPositionCol(), position_row);
-    }
-    else 
-    {
-        velocity = 0;
+        entities.push_back(new Zombie(10, 6, world));
     }
 }
 
 
-// Makes player jump
-void Controller::jump()
+// - Make zombie move towards Player
+// - Jump over 1 block
+// - Hurt player if he touches him
+// - Take demage if player hits him
+// - Die if no health
+void Controller::updateZombies()
 {
-    // if there is block between any point under player's legs and he isn't already jumping
-    if((world.getBlock(floor(player.getPositionCol()), ceil(player.getPositionRow() - 0.8)) != A
-    ||  world.getBlock(floor(player.getPositionCol() + 1), ceil(player.getPositionRow() - 0.8)) != A
-    ||  (int)player.getPositionRow() + 1 == world.getHeight()) // player must be able to get out if he fals at the edge of the world, 
-    &&  velocity == 0)                                    // at least before there aren't implemented kill mechanics
-        velocity = JUMP_STARTING_VELOCITY;
-}
-
-
-// Moves player a determianed amount in chosen direction every update 
-void Controller::movePlayer(Dir dir)
-{
-    double position_col;
-
-    if(checkMoveCollision(dir) == 0)
+    // check for every zombie
+    for(auto& zombie: entities)
     {
-        if(dir == LEFT) position_col = player.getPositionCol() - MOVE_RATE;
-        if(dir == RIGHT) position_col = player.getPositionCol() + MOVE_RATE;
+        // - Make zombie move towards Player
+        // - Jump over 1 block
+        if(player.getPositionCol() < zombie->getPositionCol())
+        {
+            zombie->move(LEFT);
+            if(zombie->checkMoveCollision(LEFT)) zombie->jump();
+        } else {
+            zombie->move(RIGHT);
+            if(zombie->checkMoveCollision(RIGHT)) zombie->jump();
+        }
 
-        player.setPosition(position_col, player.getPositionRow());
+        // - Hurt player if he touches him
+        if((zombie->getPositionCol() >= player.getPositionCol() && zombie->getPositionCol() <= player.getPositionCol()+1)
+        || (zombie->getPositionRow() >= player.getPositionRow() && zombie->getPositionRow() <= player.getPositionRow()+2))
+        {
+            player.takeDamage();
+        }
     }
 }
-
-
-// - checks if after move, player isn't out of board
-// - checks if after move, player isn't in the block
-// - returns 0 if there was no collision and 1 if it happened
-bool Controller::checkMoveCollision(Dir dir) const
-{
-    // We are moving in blocks so player height ald width looks like this:
-    int player_width = player.getWidth()/block->getSize();
-
-    // checks if after move, player isn't out of board
-    if((player.getPositionCol() - MOVE_RATE < 0 && dir == LEFT)
-    || (player.getPositionCol() + MOVE_RATE + player_width >= world.getWidth() && dir == RIGHT)) return true;
-
-    // checks if after move, player isn't in the block
-    if((world.getBlock(floor(player.getPositionCol() - MOVE_RATE), floor(player.getPositionRow() - 0.01)) != A && dir == LEFT)
-    || (world.getBlock(floor(player.getPositionCol() + MOVE_RATE + player_width), floor(player.getPositionRow() - 0.01)) != A && dir == RIGHT)
-    || (world.getBlock(floor(player.getPositionCol() - MOVE_RATE), floor(player.getPositionRow() - 1.01)) != A && dir == LEFT)
-    || (world.getBlock(floor(player.getPositionCol() + MOVE_RATE + player_width), floor(player.getPositionRow() - 1.01)) != A && dir == RIGHT)) 
-    return true;
-
-    return false;
-}
-
-
-// - checks if after move, player isn't out of board
-// - checks if after move, player isn't in the block
-// - returns 0 if there was no collision and 1 if it happened
-bool Controller::checkJumpCollision() const
-{
-    // We are moving in blocks so player height ald width looks like this:
-    int player_height = player.getHeight()/block->getSize();
-
-    // checks if after move, player isn't out of board
-    if((player.getPositionRow() + velocity - player_height <= 0 && signbit(velocity) == true)
-    || (player.getPositionRow() + velocity + 0.01 >= world.getHeight() && signbit(velocity) == false)) return true;
-    //                                        /\ so that he cant go under the map
-    // checks if after move, player isn't in the block; \/ so that player can fit into 1x1 hole
-    if((world.getBlock(floor(player.getPositionCol() + 0.04), floor(player.getPositionRow() + velocity - player_height - 0.01))  != A && signbit(velocity) == true)
-    || (world.getBlock(floor(player.getPositionCol() + 0.04), floor(player.getPositionRow() + velocity + 0.01)) != A && signbit(velocity) == false)
-    || (world.getBlock(floor(player.getPositionCol() + 0.96), floor(player.getPositionRow() + velocity - player_height - 0.01))  != A && signbit(velocity) == true)
-    || (world.getBlock(floor(player.getPositionCol() + 0.96), floor(player.getPositionRow() + velocity + 0.01)) != A && signbit(velocity) == false)) return true;
-
-    return false;
-}*/
-
-
-
 
 
 // Updates currnet state of the game:
@@ -116,4 +67,11 @@ bool Controller::checkJumpCollision() const
 void Controller::update()
 {
     player.calculateGravity();
+    spawnZombie();
+    updateZombies();
+
+    for(auto& entity: entities)
+    {
+        entity->calculateGravity();
+    }
 }

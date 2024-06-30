@@ -5,9 +5,7 @@
 
 class Zombie : public Entity {
 
-    std::string texture = "assets/textures/Player.png";
-
-    double velocity; // with coordinates as the rest of the board
+    std::string texture = "assets/textures/Zombie.png";
 
     World &wrld;
 
